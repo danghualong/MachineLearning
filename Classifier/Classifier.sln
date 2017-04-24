@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Classifier", "Classifier\Classifier.pyproj", "{4DBA9599-994A-438F-BED2-04F8E068A637}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "classifierTester", "..\classifierTester\classifierTester.csproj", "{602B65CE-512F-4CCC-815F-0D16D6162769}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4DBA9599-994A-438F-BED2-04F8E068A637}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DBA9599-994A-438F-BED2-04F8E068A637}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{602B65CE-512F-4CCC-815F-0D16D6162769}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{602B65CE-512F-4CCC-815F-0D16D6162769}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{602B65CE-512F-4CCC-815F-0D16D6162769}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{602B65CE-512F-4CCC-815F-0D16D6162769}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
