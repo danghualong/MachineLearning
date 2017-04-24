@@ -1,6 +1,7 @@
 #encoding=utf-8
 
 import matplotlib.pyplot as pl
+#import matplotlib.pylab as pl
 import numpy as np
 
 pl.figure(1,figsize=(8,6))
