@@ -1,6 +1,6 @@
 #encoding=utf-8
 import numpy as  np
-import struct
+import math
 
 map={1:'PW1',16:'CW',-32768:'PW2'}
 #The length of the scan line
@@ -66,11 +66,33 @@ def validateData(chNO,partKey):
                 print("!!!!Not Line Header after LineNO %d for channel %d" %(hex(expectedLineNOs[chNO]),chNO))
                 return
 
+def getEvens(max):
+    i=0
+    while i<max:
+        if(i%2==0):
+            yield i
+        i+=1
+
 
 if __name__=="__main__":
-    for data in readData(r'D:\allFile.dat'):
-        chNO=saveData(data)
-        validateData(chNO,"I")
-        validateData(chNO,"Q")
-    print "valid completed"
+    #for data in readData(r'D:\allFile.dat'):
+    #    chNO=saveData(data)
+    #    validateData(chNO,"I")
+    #    validateData(chNO,"Q")
+    #print "valid completed"
+    str="a+b*{c*[d+e*(a+b)]}*(c+d)"
+    s=[]
+    brakets={"{":"}","[":"]","(":")"}
+    for i in str:
+        if i in ("{","[","("):
+            s.append(i)
+        elif i in (")","]","}"):
+            if len(s)<=0:
+                print "no left braket which matches the right braket %s",i
+                break
+            actual=s.pop()
+            if(brakets[actual]!=i):
+                expectedKey=(key for key in brakets.keys() if brakets[key]==i).next()
+                print "expected braket is %s,actual is %s" %(expectedKey,actual)
+                break
         

@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>09e6eed9-dd89-4af1-9ad6-a51bd5b57b3c</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Graph.py</StartupFile>
+    <StartupFile>RawDataParser.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
