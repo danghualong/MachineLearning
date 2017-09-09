@@ -23,3 +23,7 @@ class IllegalTestCase(unittest.TestCase):
 
     def test_9(self):
         self.assertRaises(Exception,self.__fact.multiply,9)
+
+
+if __name__=="__main__":
+	unittest.main()
