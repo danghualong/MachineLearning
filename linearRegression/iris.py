@@ -3,14 +3,14 @@ import tensorflow.keras as keras
 from tensorflow.keras import optimizers,losses
 import pandas as pd
 import numpy as np
-import os
-dirName=dirName=os.path.dirname(__file__)
+# import os
+# dirName=dirName=os.path.dirname(__file__)
 
 
 # print(pd.__version__)
 # print(keras.__version__)
 
-data=pd.read_csv(dirName+'/iris.data',header=None,names=['x1','x2','x3','x4','y'])
+data=pd.read_csv('./linearRegression/iris.data',header=None,names=['x1','x2','x3','x4','y'])
 
 
 # data=np.load('./data/iris.npy',allow_pickle=True)

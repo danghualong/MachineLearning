@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np
 import math
-import os
-dirName=dirName=os.path.dirname(__file__)
+# import os
+# dirName=dirName=os.path.dirname(__file__)
 
 
 
@@ -179,7 +179,7 @@ class DecisionTree(object):
 
 if __name__=='__main__':
     
-    origin_data=pd.read_excel(dirName+'/dt.csv',sheet_name='Sheet1')
+    origin_data=pd.read_excel('./decisionTree/dt.csv',sheet_name='Sheet1')
     data=np.array(origin_data,dtype=np.int32)
     print(origin_data.columns)
     X=data[:,0:-1]
@@ -189,5 +189,3 @@ if __name__=='__main__':
     model=DecisionTree()
     model.fit(X,Y,columns)
     model.predict({'天气':0,'温度':0,'湿度':0,'风力':1})
-
-   

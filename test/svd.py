@@ -3,6 +3,9 @@ import numpy.linalg as la
 import matplotlib.pyplot as plt
 # from sklearn import datasets
 from skimage import io
+import os
+dirName=dirName=os.path.dirname(__file__)
+
 
 # def getImgAsMat(index):
 #     ds = datasets.fetch_olivetti_faces()
@@ -34,9 +37,9 @@ def recoverBySVD(imgMat, k):
 #plotImg(A)
 #A_new = recoverBySVD(A, 20)
 #plotImg(A_new)
-
-A = getImgAsMatFromFile('D:/Photos/niu.jpg')
-plotImg(A)
-A_new = recoverBySVD(A, 50)
-plotImg(A_new)
+if __name__=="__main__":
+    A = getImgAsMatFromFile('./test/data/niu.jpg')
+    plotImg(A)
+    A_new = recoverBySVD(A, 50)
+    plotImg(A_new)
 
