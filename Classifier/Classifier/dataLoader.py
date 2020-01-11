@@ -20,6 +20,6 @@ def loadData(fileName):
             index+=1
         return mat,labels
     except Exception as ex:
-        print ex
+        print(ex)
 
 

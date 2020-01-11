@@ -23,5 +23,5 @@ if __name__=="__main__":
     mat,labels=loader.loadData(r"samples\result.txt")
     inX=np.array([10,20])
     curType=classify(inX,mat,labels,3)
-    print "The type of the film is ",curType
+    print("The type of the film is ",curType)
 
