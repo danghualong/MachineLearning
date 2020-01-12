@@ -48,7 +48,7 @@ class DataNode(object):
         # 当前没有特征列
         if(featureIndex==-1):
             sortedDictData=sorted(dictData,key=lambda x:x[1],reverse=True)
-            print(sortedDictData)
+            # print(sortedDictData)
             self._resultLabel=sortedDictData[0].key
             return
         self.nextFeatureIndex=featureIndex
@@ -156,23 +156,25 @@ class DecisionTree(object):
             for subNode in dataNode.childNodes:
                 self.showAll(subNode)
 
+    
     def predict(self,case):
+        NO_DATA=-100
         if(self._root==None):
-            return
+            return NO_DATA
         node=self._root
         while(node!=None):
             key=node.nextFeatureName
-            print(key,node._labels)
+            # print(key,node._labels)
             if(key not in case.keys()):
-                return
+                return NO_DATA
             if(node.resultLabel!=None):
-                print("The category is:",node.resultLabel)
-                return
+                # print("The category is:",node.resultLabel)
+                return node.resultLabel
             if(node.kinds==None):
-                return
+                return NO_DATA
             index=node.kinds.index(case[key])
             if(index<0):
-                return
+                return NO_DATA
             
             node=node.childNodes[index]
 
@@ -182,10 +184,24 @@ if __name__=='__main__':
     origin_data=pd.read_excel('./decisionTree/dt.csv',sheet_name='Sheet1')
     data=np.array(origin_data,dtype=np.int32)
     print(origin_data.columns)
-    X=data[:,0:-1]
-    Y=data[:,-1]
+
+    train_count=7
+    X=data[0:train_count,0:-1]
+    Y=data[0:train_count,-1]
 
     columns=origin_data.columns
     model=DecisionTree()
     model.fit(X,Y,columns)
-    model.predict({'天气':0,'温度':0,'湿度':0,'风力':1})
+    # 
+    X2=data[train_count:,0:-1]
+    Y2=data[train_count:,-1]
+    m=len(X2)
+    result=np.zeros((m,1))
+    for i in range(m):
+        result[i]=model.predict({'天气':X2[i][0],'温度':X2[i][1],'湿度':X2[i][2],'风力':X2[i][3]})
+    # print(result)
+    Y3=np.reshape(Y2,(m,1))
+    # print(Y2)
+    errorRate=np.zeros((m,1))
+    errorRate[result!=Y3]=1
+    print("错误率:",np.sum(errorRate)/m)
