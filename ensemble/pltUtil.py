@@ -40,3 +40,8 @@ def drawAuc(aggClassEst,vectLabels):
     plt.ylabel('TPR')
     plt.title('the auc of the model')
     plt.show()
+
+
+
+
+

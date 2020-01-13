@@ -2,6 +2,7 @@ import numpy as np
 import math
 import pandas as pd
 import pltUtil as util
+from sklearn.model_selection import train_test_split
 
 # AdaBoost集成分类器模型
 class AdaBoost(object):
@@ -95,23 +96,20 @@ if __name__=="__main__":
     origin_data=pd.read_excel('./ensemble/adaboost.csv',sheet_name='Sheet1')
     data=np.array(origin_data,dtype=np.int32)
     print(origin_data.columns)
-    train_count=10
-    X_train=data[0:train_count,0:-1]
-    Y_train=data[0:train_count,-1:]
+    X_train,X_test,Y_train,Y_test=train_test_split(data[:,0:-1],data[:,-1:],test_size=0.3,random_state=10)
+    print(Y_train.shape[0],Y_test.shape[0])
     ada=AdaBoost()
     ada.fit(X_train,Y_train)
     util.drawAuc(ada.aggClassEst,Y_train)
 
-    X_valid=data[train_count:,0:-1]
-    Y_valid=data[train_count:,-1:]
-    aggClassEst=ada.predict(X_valid)
+    aggClassEst=ada.predict(X_test)
     labelResult=np.sign(aggClassEst)
-    m=X_valid.shape[0]
+    m=X_test.shape[0]
     errorRate=np.zeros((m,1))
-    errorRate[labelResult!=Y_valid]=1
+    errorRate[labelResult!=Y_test]=1
     # print(errorRate)
     print("分类错误率:",np.sum(errorRate)/m)
-    util.drawAuc(aggClassEst,Y_valid)
+    util.drawAuc(aggClassEst,Y_test)
 
 
 
