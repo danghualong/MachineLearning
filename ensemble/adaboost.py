@@ -1,6 +1,7 @@
 import numpy as np
 import math
 import pandas as pd
+import pltUtil as util
 
 # AdaBoost集成分类器模型
 class AdaBoost(object):
@@ -8,6 +9,7 @@ class AdaBoost(object):
     def __init__(self):
         self._classifiers=[]
         self._eigenSize=10
+        self.aggClassEst=None
         
 
     def predict(self,dataMat):
@@ -16,8 +18,8 @@ class AdaBoost(object):
         for classifier in self._classifiers:
             retLabels=self._classifyItem(dataMat,classifier['threshold'],classifier['eigenIndex'],classifier['inequal'])
             aggClassEst+=classifier['alpha']*retLabels
-            print(aggClassEst)
-        return np.sign(aggClassEst)
+            # print(aggClassEst)
+        return aggClassEst
             
 
     def fit(self,dataMat,vectLabels,iterNum=10):
@@ -25,7 +27,7 @@ class AdaBoost(object):
         m,n=dataMat.shape
         weights=np.ones((m,1),dtype=float)/m
         # 累积分类概率
-        aggClassEst=np.zeros((m,1))
+        self.aggClassEst=np.zeros((m,1))
         for i in range(iterNum):
             bestClassifier,err,retLabels=self._findBestClassifier(dataMat,vectLabels,weights)
             # print("weights:\n",weights)
@@ -34,11 +36,11 @@ class AdaBoost(object):
             bestClassifier['alpha']=alpha
             self._classifiers.append(bestClassifier)
             # print(retLabels.shape)           
-            aggClassEst+=alpha*retLabels
+            self.aggClassEst+=alpha*retLabels
             # print("aggClassEst:\n",aggClassEst[:,-1])
 
             probs=np.zeros((m,1))
-            probs[np.sign(aggClassEst)!=vectLabels]=1
+            probs[np.sign(self.aggClassEst)!=vectLabels]=1
             errorRate=np.sum(probs*np.ones((m,1)))
             print("iteration {0},errorRate={1}:".format((i+1),errorRate/m))
             if(errorRate<=0):
@@ -87,25 +89,29 @@ class AdaBoost(object):
         else:
             retLabels[arrs>threshold]=-1.0
         return retLabels      
+    
 
 if __name__=="__main__":
     origin_data=pd.read_excel('./ensemble/adaboost.csv',sheet_name='Sheet1')
     data=np.array(origin_data,dtype=np.int32)
     print(origin_data.columns)
-    train_count=7
+    train_count=10
     X_train=data[0:train_count,0:-1]
     Y_train=data[0:train_count,-1:]
     ada=AdaBoost()
     ada.fit(X_train,Y_train)
-    # print(Y)
-    # print(ada._classifiers)
+    util.drawAuc(ada.aggClassEst,Y_train)
+
     X_valid=data[train_count:,0:-1]
     Y_valid=data[train_count:,-1:]
-    labelResult=ada.predict(X_valid)
+    aggClassEst=ada.predict(X_valid)
+    labelResult=np.sign(aggClassEst)
     m=X_valid.shape[0]
     errorRate=np.zeros((m,1))
     errorRate[labelResult!=Y_valid]=1
-    print(errorRate)
+    # print(errorRate)
     print("分类错误率:",np.sum(errorRate)/m)
+    util.drawAuc(aggClassEst,Y_valid)
+
 
 

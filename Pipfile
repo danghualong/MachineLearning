@@ -12,8 +12,6 @@ scipy = "*"
 matplotlib = "*"
 tensorflow = "*"
 xlrd = "*"
-skicit-image = "*"
-skimage = "*"
 scikit-image = "*"
 
 [requires]
