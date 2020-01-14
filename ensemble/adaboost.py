@@ -2,7 +2,7 @@ import numpy as np
 import math
 import pandas as pd
 import pltUtil as util
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split,KFold
 
 # AdaBoost集成分类器模型
 class AdaBoost(object):

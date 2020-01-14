@@ -10,10 +10,10 @@ numpy = "*"
 pandas = "*"
 scipy = "*"
 matplotlib = "*"
-tensorflow = "*"
 xlrd = "*"
 scikit-image = "*"
 scikit-learn = "*"
+keras = "*"
 
 [requires]
 python_version = "3.7"
