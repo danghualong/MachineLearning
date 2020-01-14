@@ -11,17 +11,20 @@ def classify(inX,mat,labels,k):
     mat=mat**2
     sum= mat.sum(axis=1)
     sum=sum**0.5
-    sortIndexes=sum.argsort()
+    sortIndices=sum.argsort()
     dict={}
     for i in range(k):
-        type=labels[sortIndexes[i],0]
+        type=labels[sortIndices[i]]
         dict[type]=dict.get(type,0)+1
-    sortedTypes=sorted(dict.iteritems(),key=lambda i:i[1],reverse=True)
+    print(dict)
+    sortedTypes=sorted(dict,key=lambda i:i[0],reverse=True)
     return dictTypes[int(sortedTypes[0][0])]
 
 if __name__=="__main__":
-    mat,labels=loader.loadData(r"samples\result.txt")
-    inX=np.array([10,20])
-    curType=classify(inX,mat,labels,3)
+    mat,labels=loader.loadData("./Classifier/Classifier/samples/result.txt")
+    X=np.array(mat)[:,1:]
+    Y=np.array(labels)
+    inX=np.array([[30,20]])
+    curType=classify(inX,X,Y,3)
     print("The type of the film is ",curType)
 

@@ -6,3 +6,7 @@ def loadIrisData():
     class_mapping={'Iris-virginica':2,'Iris-versicolor':1,'Iris-setosa':0}
     data.iloc[:,4]=data.iloc[:,4].map(class_mapping)
     return np.array(data)
+
+def loadCityData():
+    data=pd.read_csv('./utils/data/city.csv',header=None,sep=',')
+    return np.array(data) 

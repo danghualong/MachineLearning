@@ -5,7 +5,8 @@ from tensorflow.keras import optimizers,losses
 from utils.dataLoader import loadIrisData
 import numpy as np
 
-print(tf.__version__)
+# print(tf.__version__)
+# print(tf.__path__)
 
 data=loadIrisData()
 m=data.shape[0]
@@ -20,7 +21,7 @@ num_classes=3
 num_attrs=X.shape[1]
 
 
-Y=data[:,-1]
+Y=data[:,-1:]
 # print(Y)
 
 

@@ -45,7 +45,7 @@ def drawScatter(vecX,vecY,types,**labels):
 
 
 if __name__=="__main__":
-    mat,types=loader.loadData(r"samples\data1.txt")
+    mat,types=loader.loadData("./Classifier/Classifier/samples\data1.txt")
     mat=np.mat(mat)
     vecX=mat[:,0]
     vecY=mat[:,1]
