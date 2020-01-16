@@ -1,7 +1,14 @@
 import numpy as np
 
-arr=np.arange(10)
-arr2=arr.reshape((-1,1))
-arr3=arr2.flatten()
-print(np.dot(arr2.T,arr2))
-print(np.multiply(arr2.T,arr2))
+mat=np.arange(6).reshape((2,3))
+print(mat)
+
+vect=np.array([0,1,2])
+
+res=np.multiply(mat,vect)
+
+res2=np.dot(mat,vect.T)
+print(res)
+print(res2.T.shape)
+
+
