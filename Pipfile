@@ -4,6 +4,7 @@ url = "http://mirrors.aliyun.com/pypi/simple/"
 verify_ssl = false
 
 [dev-packages]
+pylint = "*"
 
 [packages]
 numpy = "*"
@@ -13,7 +14,6 @@ matplotlib = "*"
 xlrd = "*"
 scikit-image = "*"
 scikit-learn = "*"
-keras = "*"
 tensorflow = "==2.0.0"
 input-data = "*"
 
