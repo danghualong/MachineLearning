@@ -20,7 +20,7 @@ class Genetic(object):
         self._maxWeight=max_weight
         self._variation_rate=variation_rate
         self._sample_size=sample_size
-        self.goodsCount=len(weights)
+        self._goods_count=len(weights)
         self.populations=[]
         self.totalPrices=0
         self.bestItem=None
@@ -29,15 +29,14 @@ class Genetic(object):
     def initPopulation(self):
         for i in range(self._sample_size):
             item={}
-            tmpArr=np.zeros((self.goodsCount))
-            randoms=np.random.random(self.goodsCount)
+            tmpArr=np.zeros((self._goods_count))
+            randoms=np.random.random(self._goods_count)
             tmpArr[randoms>0.5]=1
             item['series']=tmpArr
             self.populations.append(item)
         # 计算种群个体的性状值
         self.cal(self.populations)
         return self.populations
-    
     # 自然选择
     def naturalSelect(self):
         # 淘汰当前世代中不适宜的物种
@@ -47,7 +46,6 @@ class Genetic(object):
         # 选择能繁殖后代的个体
         parents=Genetic.selectParents(leaveout,self._sample_size,totalWeight)
         return parents
-    
     # 标注当前世代的最适宜个体（即价格最大个体)
     def getBestIndividual(self,items):
         totalWeight=0
@@ -67,7 +65,7 @@ class Genetic(object):
         # 两两杂交
         descents=[]
         for i in range(0,len(parents),2):
-           sepIndex=random.randint(1,self.goodsCount-1)
+           sepIndex=random.randint(1,self._goods_count-1)
            descents.append(parents[i].copy())
            descents.append(parents[i+1].copy())
            series1=descents[i]['series']
@@ -86,7 +84,7 @@ class Genetic(object):
     # 增加基因变异
     def variation(self,items):
         for item in items:
-            randoms=np.random.random((self.goodsCount))
+            randoms=np.random.random((self._goods_count))
             indices=np.argwhere(randoms<self._variation_rate)
             # print("pre:",item['series'])
             item['series'][indices]=1-item['series'][indices]
@@ -97,7 +95,6 @@ class Genetic(object):
            series=items[i]['series']
            items[i]['weight']=np.sum(self._weights[series==1])
            items[i]['price']=np.sum(self._prices[series==1])
-
     # 选择能繁殖后代的个体
     @staticmethod   
     def selectParents(items,sampleSize,totalWeight):
