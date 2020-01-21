@@ -75,13 +75,13 @@ accurList=[]
 with tf.compat.v1.Session() as sess:
     sess.run(init)
     for i in range(EPOCHES):
-        # shuffleX,shuffleY=shuffleData(xtrain,ytrain)
+        shuffleX,shuffleY=shuffleData(xtrain,ytrain)
         batchNum=int(len(xtrain)/BATCH_SIZE)
         for j in range(batchNum):
-            xbatch,ybatch=getBatchData(xtrain,ytrain,j,BATCH_SIZE)
+            xbatch,ybatch=getBatchData(shuffleX,shuffleY,j,BATCH_SIZE)
             _,loss=sess.run((target,cost),feed_dict={x:xbatch,y:ybatch})
             if((j+1)%50==0):
-                print("epoch={0},batchNum={1},loss={2}".format(i+1,j,loss))
+                print("epoch={0},batchNum={1},loss={2}".format(i+1,j+1,loss))
         test_accuracy=sess.run((accur),feed_dict={x:xtest,y:ytest})
         accurList.append(test_accuracy)
         print("epoch={0},test_accuracy={1}".format(i+1,test_accuracy))
