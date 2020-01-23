@@ -1,32 +1,19 @@
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras import Sequential,optimizers
+from tensorflow.keras import Sequential,optimizers,regularizers
 from tensorflow.keras.layers import Flatten,Dense
 from tensorflow.keras.models import load_model,save_model
+import mnist.plot_util as plotUtil
 import matplotlib.pyplot as plt
 
-
-def plotHistory(history):
-    if(history==None):
-        return
-    plt.plot(history.epoch,history.history.get('accuracy'),label='accuracy')
-    plt.show()
-
-def drawSamples():
-    for i in range(12):
-        plt.subplot(3,4,(i+1))
-        plt.xticks([])
-        plt.yticks([])
-        plt.imshow(testX[i])
-        plt.grid(False)
-    plt.show()
 
 # 超参数设置
 LR=0.01
 IMAGE_SIZE=(28,28)
-HIDDEN_UNITS_1=32
+HIDDEN_UNITS_1=64
+HIDDEN_UNITS_2=64
 CLASSES=10
-EPOCHES=1
+EPOCHES=10
 BATCH_SIZE=100
 
 # 预处理数据
@@ -38,18 +25,21 @@ trainY_hot=tf.one_hot(train_labels,depth=10)
 trainX=tf.convert_to_tensor(train_images,tf.float32)
 trainY=tf.convert_to_tensor(trainY_hot,tf.float32)
 
+# plotUtil.drawSamples(testX)
+
+
 # 创建模型
 model=Sequential()
 model.add(Flatten(input_shape=IMAGE_SIZE))
-model.add(Dense(HIDDEN_UNITS_1,activation='sigmoid'))
-# model.add(Dense(16,activation='sigmoid'))
+model.add(Dense(HIDDEN_UNITS_1,activation='relu'))
+model.add(Dense(HIDDEN_UNITS_2,activation='sigmoid'))
 model.add(Dense(CLASSES,activation='softmax'))
 
 # 训练模型
 optimizer=optimizers.SGD(LR)
 model.compile(optimizer=optimizer,loss='categorical_crossentropy',metrics=['accuracy'])
-history=model.fit(trainX,trainY,epochs=EPOCHES,batch_size=BATCH_SIZE,verbose=0)
-plotHistory(history)
+history=model.fit(trainX,trainY,epochs=EPOCHES,batch_size=BATCH_SIZE,verbose=1,validation_split=0.2)
+plotUtil.plotHistory(history)
 # 测试模型
 (loss,accuracy)=model.evaluate(testX,testY,verbose=0)
 print("测试cost={0},accuracy={1}".format(loss,accuracy))
