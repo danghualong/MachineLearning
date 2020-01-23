@@ -61,10 +61,12 @@ class CloseState(State):
 # print(mvo.getState())
 
 import tensorflow as tf
+x=tf.constant(10.0)
+with tf.GradientTape() as tape:
+    tape.watch(x)
+    y=x*x
+grads=tape.gradient(y,x)
 
-arr=np.eye(4)
-indices=np.arange(4)
-np.random.shuffle(indices)
-brr=arr[indices]
-print(brr)
+print(grads.numpy())
+
 
