@@ -39,7 +39,7 @@ class KMeans(object):
         return count==total
 
     # 初始化簇
-    def initClusters(self,num):
+    def initCentroids(self,num):
         m,n=self._dataset.shape
         size=math.ceil(m/num)
         clusters=np.zeros((num,n))
@@ -64,16 +64,16 @@ class KMeans(object):
         '''
         m,n=self._dataset.shape
         # 初始化簇
-        clusters=self.initClusters(num)
+        centroids=self.initCentroids(num)
         # 初始化分类
         lastClasses=np.zeros((m,2))
         times=0
         while(times<100):
             # 根据当前簇，重新分类
-            classes=KMeans.classify(self._dataset,clusters)
+            classes=KMeans.classify(self._dataset,centroids)
             # print("classes:",self._dataset,classes)
             # 根据各个簇重新调整簇中心
-            self.regulateClusterCenter(classes,clusters)
+            self.regulateClusterCenter(classes,centroids)
             # 当前分类与上次分类是否一样，如果一样，则停止聚类
             isSame=KMeans.isSame(classes[:,0],lastClasses[:,0])
             lastClasses=classes.copy()
@@ -82,14 +82,16 @@ class KMeans(object):
             times+=1
             if(times%100==0):
                 print('times:',times)
-        return lastClasses
+        return centroids,lastClasses
 # 利用二分法分割数据集，直至分到指定簇数量
-def biKmeans(dataset,classes,clusterNum):
+def biKmeans(dataset,classes,totalClusters):
     '''
     利用二分法分割数据集，直至分到指定簇数量
     '''
     count=1
-    while(count<clusterNum):
+    n=dataset.shape[1]
+    centroids=np.zeros((totalClusters,n))
+    while(count<totalClusters):
         # 当前簇的数量
         curNum=len(set(classes[:,0]))
         #最小误差平方和
@@ -98,6 +100,7 @@ def biKmeans(dataset,classes,clusterNum):
         blockIndex=-1
         # 下一个簇的分类结果
         subClasses=None
+        subCentroids=None
         for i in range(curNum):
             # 遍历每一个簇
             subDataset=dataset[classes[:,0]==i]
@@ -105,7 +108,7 @@ def biKmeans(dataset,classes,clusterNum):
                 continue
             # 对该簇分成2个簇
             obj=KMeans(subDataset)
-            splitedClasses=obj.splitData(2)
+            tmpCentroids,splitedClasses=obj.splitData(2)
             # print("splitedclasses",splitedClasses)
             # 其余未进行分类的簇的误差平方和
             sse1=np.sum(classes[classes[:,0]!=i][:,1])
@@ -116,6 +119,7 @@ def biKmeans(dataset,classes,clusterNum):
                 minSSE=sse1+sse2
                 blockIndex=i
                 subClasses=splitedClasses
+                subCentroids=tmpCentroids
         indices=np.nonzero(classes[:,0]==blockIndex)
         indices2=np.nonzero(subClasses[:,0]==1)
         # print("blockIndex,indices,indices2",blockIndex,indices,indices2)
@@ -125,29 +129,41 @@ def biKmeans(dataset,classes,clusterNum):
         # 将当前2个新簇中的误差更新为最新的误差
         for j in range(len(subClasses)):
             classes[indices[0][j]][1]=subClasses[j][1]
+        # 更新簇中心
+        centroids[blockIndex]=subCentroids[0]
+        centroids[count]=subCentroids[1]
         count+=1
         # print("*****after classes:",classes)
+    return centroids,classes
 
 
 np.random.seed(14)
 dataset=np.random.standard_normal((12,2))
-import matplotlib.pyplot as plt
+print(dataset)
 
+
+print("\rKMeans model:")
+obj=KMeans(dataset)
+centroids,classes=obj.splitData(4)
+print("centroids:",centroids)
+print("labels:",classes[:,0])
+print("inertia:",np.sum(classes[:,1]))
+
+print("\rBiKMeans model:")
+biClasses=np.zeros((len(dataset),2))
+centroids,classes=biKmeans(dataset,biClasses,4)
+print("centroids:",centroids)
+print("labels:",classes[:,0])
+print("inertia:",np.sum(classes[:,1]))
+
+print("\rsklearn model:")
+from sklearn.cluster import k_means
+centroid,labels,inertia=k_means(dataset,4,verbose=False)
+print("centroid:",centroid)
+print("labels:",labels)
+print("inertia:",inertia)
+
+import matplotlib.pyplot as plt
 plt.scatter(dataset[:,0],dataset[:,1])
 plt.show()
-
-obj=KMeans(dataset)
-classes=obj.splitData(4)
-print("Kmeans result:",classes)
-print("sse of kmeans:",np.sum(classes[:,1]))
-
-biClasses=np.zeros((len(dataset),2))
-biKmeans(dataset,biClasses,4)
-print(biClasses)
-print("sse of biKmeans:",np.sum(biClasses[:,1]))
-
-
-
-
-
             
