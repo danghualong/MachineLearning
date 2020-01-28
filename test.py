@@ -60,13 +60,33 @@ class CloseState(State):
 # mvo.close()
 # print(mvo.getState())
 
-import tensorflow as tf
-x=tf.constant(10.0)
-with tf.GradientTape() as tape:
-    tape.watch(x)
-    y=x*x
-grads=tape.gradient(y,x)
+# import tensorflow as tf
+# x=tf.constant(10.0)
+# with tf.GradientTape() as tape:
+#     tape.watch(x)
+#     y=x*x
+# grads=tape.gradient(y,x)
 
-print(grads.numpy())
+# print(grads.numpy())
 
+a=[1,2,3]
+b=[1,3]
+c=[3,4]
+d=[2,3]
 
+def issubset(sub,scope):
+    for item in sub:
+        if(item not in scope):
+            return False
+    return True
+# b=frozenset(b)
+# c=frozenset(c)
+# d=frozenset(d)
+print(c==d)
+print(issubset(b,a))
+print(issubset(c,a)) 
+
+d=np.array([3,4,5,7,2,1])
+y=np.argsort(d)
+y=y[-1:-3:-1]
+print(y)

@@ -38,7 +38,7 @@ def recoverBySVD(imgMat, k):
 #A_new = recoverBySVD(A, 20)
 #plotImg(A_new)
 if __name__=="__main__":
-    A = getImgAsMatFromFile('./test/data/niu.jpg')
+    A = getImgAsMatFromFile('./dr/data/niu.jpg')
     plotImg(A)
     A_new = recoverBySVD(A, 50)
     plotImg(A_new)
