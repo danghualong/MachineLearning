@@ -69,7 +69,7 @@ def mysvd(data):
     return sigma
 
 if __name__=="__main__":
-    dataset=np.array([[1.0,2.0,3.0],[2,3.9,6.1],[3,6.01,9.03],[4,8.01,12.04]])
+    dataset=np.array([[1.0,2.0,4.0],[2,12,6.1],[3,31,6.03],[4,-2,12.04]])
     print("from my svd:")
     u,sigma,vT=svd(dataset)
     print('u:',u)
@@ -93,5 +93,29 @@ if __name__=="__main__":
     print('u:',u)
     print("sigma",sigma)
     print('v:',vT)
+
+    print("\r测试公式:")
+    u,sigma,vT=np.linalg.svd(dataset)
+    sigmasquare=np.power(sigma,2)
+    total=np.sum(sigmasquare)
+    ratio=0
+    for i in range(len(sigmasquare)):
+        ratio+=sigmasquare[i]/total
+        print(ratio)
+
+    A=u[:,:1].dot(np.diag(sigma[:1])).dot(vT[:1,:])
+    print(A)
+
+    import matplotlib.pyplot as plt
+
+    # plt.figure()
+    plt.scatter(dataset[:,0],dataset[:,2],marker='^')
+    plt.scatter(A[:,0],A[:,2],marker='o')
+
+    plt.show()
+
+
+    
+
 
 
