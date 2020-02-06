@@ -1,4 +1,5 @@
 import numpy as np
+import utils.dataLoader as loader
 from sklearn.ensemble import RandomForestClassifier
 
 X=np.array([
@@ -17,9 +18,39 @@ X=np.array([
 ])
 Y=np.array([0,1,1,1,0,0,1,0,1,1,0,1])
 
-classifier=RandomForestClassifier(n_estimators=10).fit(X,Y)
 
-test_labels=classifier.predict(X)
-print(test_labels)
-error_rate=np.sum(Y!=test_labels)/len(Y)
-print("error_rate=",error_rate)
+
+def loadData(keepprob=0.8):
+    data=loader.loadIrisData()
+    m,n=data.shape
+    lenTrain=int(keepprob*m)
+    np.random.shuffle(data)
+    x_train=data[:lenTrain,:-1]
+    y_train=data[:lenTrain,-1]
+    x_test=data[lenTrain:,:-1]
+    y_test=data[lenTrain:,-1]
+    return x_train,y_train,x_test,y_test
+
+# x_train,y_train,x_test,y_test=loadData()
+# classifier=RandomForestClassifier(n_estimators=10,max_depth=2).fit(x_train,y_train)
+
+# test_labels=classifier.predict(x_test)
+# error_rate=np.sum(y_test!=test_labels)/len(y_test)
+# print("error_rate=",error_rate)
+
+errorList=[]
+MAX_DEPTH=5
+for i in range(1,MAX_DEPTH):
+    np.random.seed(10)
+    x_train,y_train,x_test,y_test=loadData()
+    classifier=RandomForestClassifier(n_estimators=5,max_depth=i)
+    classifier.fit(x_train,y_train)
+    test_labels=classifier.predict(x_test)
+    error_rate=np.sum(y_test!=test_labels)/len(y_test)
+    errorList.append(error_rate)
+
+import matplotlib.pyplot as plt
+print(errorList)
+plt.plot(range(1,MAX_DEPTH),errorList)
+plt.show()
+   

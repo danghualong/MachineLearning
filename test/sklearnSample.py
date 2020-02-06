@@ -12,6 +12,7 @@ def testPCA():
     pca=PCA(n_components='mle',svd_solver='auto')
     pca.fit(X)
     reduceX=pca.transform(X)
+    print('各特征值对应的方差:',pca.explained_variance_)
     print('降维后的方差占总方差比例:',pca.explained_variance_ratio_)
     print('降维后的特征数:',pca.n_components_)
     print('reduceX:',reduceX)
@@ -38,6 +39,6 @@ def draw(data,labels,clusters,markers):
 
 
 if __name__=='__main__':
-    testCluster()
+    testPCA()
 
 
