@@ -10,3 +10,7 @@ def loadIrisData():
 def loadCityData():
     data=pd.read_csv('./utils/data/city.csv',header=None,sep=',')
     return np.array(data) 
+
+def loadBreastCancerData():
+    data=pd.read_csv('./utils/data/breast_cancer.csv',header=None,sep=' ')
+    return np.array(data)

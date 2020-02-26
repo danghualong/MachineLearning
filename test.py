@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from abc import ABCMeta,abstractmethod
+import tensorflow as tf
 
 
 class Context(metaclass=ABCMeta):
@@ -158,11 +159,27 @@ def drawHist():
  
 
 if __name__=='__main__':
-    import matplotlib as mpl
-    x1=np.linspace(0,10,20)
-    x2=np.linspace(3,7,20)
-    bgcm=mpl.colors.ListedColormap(['#a0a0ff','#ffa0a0','#a0ffa0'])
-    drawRegions(x1,x2,setLabel,bgcm)
+    # import matplotlib as mpl
+    # x1=np.linspace(0,10,20)
+    # x2=np.linspace(3,7,20)
+    # bgcm=mpl.colors.ListedColormap(['#a0a0ff','#ffa0a0','#a0ffa0'])
+    # drawRegions(x1,x2,setLabel,bgcm)
+
+    
+    # data=tf.constant(([1,2],[3,4],[5,6]))
+    # labels=tf.constant(['a','b','a'])
+    # sdata=tf.data.Dataset.from_tensors(data)
+    # slabels=tf.data.Dataset.from_tensors(labels)
+    # # data_labels=Dataset.from_tensor_slices((sdata,slabels))
+    # # print(list(sdata.as_numpy_iterator()))
+    # dataset = tf.data.Dataset.from_tensor_slices([1, 2, 3]) 
+    # for element in dataset.as_numpy_iterator(): 
+    #     print(element)
+    size=10
+    arr=np.arange(size)
+    np.random.shuffle(arr)
+    print(arr)
+    
 
 
 

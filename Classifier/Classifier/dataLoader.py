@@ -16,7 +16,7 @@ def loadData(fileName):
             line=line.strip()
             items=line.split("\t")
             mat.append([float(item) for item in items[0:-1]])
-            labels.append(items[-1])
+            labels.append(float(items[-1]))
             index+=1
         return mat,labels
     except Exception as ex:
