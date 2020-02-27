@@ -4,7 +4,7 @@ from tensorflow.keras import optimizers,losses
 # 在sitepackages目录中添加.pth文件，并将模块所在目录添加进去即可。
 from utils.dataLoader import loadIrisData
 import numpy as np
-import matplotlib.pyplot as plt
+from linearRegression.draw_util import showOneTrendency
 
 # print(tf.__version__)
 # print(tf.__path__)
@@ -36,10 +36,6 @@ Y=data[:,-1:]
 
 
 
-def showTrendency(valid_accurs):
-    plt.plot(np.arange(len(valid_accurs)),valid_accurs,color='g',label='valid')
-    plt.legend()
-    plt.show()
 
 
 train_size=90
@@ -69,7 +65,7 @@ for epoch in range(epoches):
     pred=tf.argmax(pred,axis=1)
     accuracy=np.mean(pred==Y_test)
     accurs.append(accuracy)
-showTrendency(accurs)
+showOneTrendency(accurs)
 
 
 
