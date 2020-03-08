@@ -15,7 +15,6 @@ xlrd = "*"
 scikit-image = "*"
 scikit-learn = "*"
 tensorflow = "==2.0.0"
-input-data = "*"
 
 [requires]
 python_version = "3.7"
