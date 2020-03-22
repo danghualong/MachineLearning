@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from abc import ABCMeta,abstractmethod
 import tensorflow as tf
+from scipy.stats import norm
 
 
 class Context(metaclass=ABCMeta):
@@ -38,7 +39,6 @@ def singleton(cls):
         return cls._instance
     return _singleton
 
-
 class OpenState(State):
     def open(self):
         print("have already open")
@@ -52,25 +52,6 @@ class CloseState(State):
         print('changed State')
     def close(self):
         print("have already closed")
-
-
-# mvo=Context()
-# print(mvo.getState())
-# mvo.close()
-# mvo.open()
-# print(mvo.getState())
-# mvo.close()
-# print(mvo.getState())
-
-# import tensorflow as tf
-# x=tf.constant(10.0)
-# with tf.GradientTape() as tape:
-#     tape.watch(x)
-#     y=x*x
-# grads=tape.gradient(y,x)
-
-# print(grads.numpy())
-
 
 def showMultiEigenLines():
     xs=np.array([[2.4,4,5,7],[2.6,5.5,6,8],[3.9,5,4.7,9],[4.1,5.7,4.7,10],[3.8,5,4.7,9]])
@@ -117,23 +98,12 @@ def showRandomImages():
     plt.title('convolved')
 
     plt.show()
-# 楼梯中去除所有为4的楼层，剩下楼层数
-def getRealStairs(n):
-    count=0
-    for i in range(1,n+1):
-        if('4' in str(i)):
-            continue
-        count+=1
-    return count
 
 def setLabel(x):
     result=np.zeros((len(x)))
     result[x[:,0]<5]=1
     result[np.all((x[:,0]>=5,x[:,1]<5),axis=0)]=2
     return result
-
-
-
 
 def drawRegions(x1,x2,func,cmap):
     t1,t2=np.meshgrid(x1,x2)
@@ -142,7 +112,6 @@ def drawRegions(x1,x2,func,cmap):
     labels=setLabel(t)
     plt.pcolormesh(t1,t2,labels.reshape(t1.shape),cmap=cmap)
     plt.show()
-
 
 def drawHist():
     u=np.random.uniform(0,1,10000)
@@ -159,26 +128,10 @@ def drawHist():
  
 
 if __name__=='__main__':
-    # import matplotlib as mpl
-    # x1=np.linspace(0,10,20)
-    # x2=np.linspace(3,7,20)
-    # bgcm=mpl.colors.ListedColormap(['#a0a0ff','#ffa0a0','#a0ffa0'])
-    # drawRegions(x1,x2,setLabel,bgcm)
-
-    
-    # data=tf.constant(([1,2],[3,4],[5,6]))
-    # labels=tf.constant(['a','b','a'])
-    # sdata=tf.data.Dataset.from_tensors(data)
-    # slabels=tf.data.Dataset.from_tensors(labels)
-    # # data_labels=Dataset.from_tensor_slices((sdata,slabels))
-    # # print(list(sdata.as_numpy_iterator()))
-    # dataset = tf.data.Dataset.from_tensor_slices([1, 2, 3]) 
-    # for element in dataset.as_numpy_iterator(): 
-    #     print(element)
-    size=10
-    arr=np.arange(size)
-    np.random.shuffle(arr)
+    arr=np.arange(20).reshape(2,10)
     print(arr)
+    sums=np.sum(arr,axis=1)
+    print(sums)
     
 
 

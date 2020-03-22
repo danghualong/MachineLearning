@@ -1,3 +1,5 @@
 .vscode
 mnist/models/*.*
 *.pyc
+venv
+/test/imgs/result.jpg
