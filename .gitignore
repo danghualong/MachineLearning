@@ -3,3 +3,4 @@ mnist/models/*.*
 *.pyc
 venv
 /test/imgs/result.jpg
+/utils/data/prsa_data.csv
