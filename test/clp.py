@@ -22,7 +22,7 @@ def getSampleStat(data):
     return np.array(means)
 
 def draw(data,xlabel=None,ylabel=None,title=None):
-    bins=int(SAMPLE_NUMS/5);
+    bins=int(SAMPLE_NUMS/5)
     plt.hist(data,bins=bins,density=0,facecolor='r',edgecolor='b',orientation='vertical')
     if(xlabel!=None):
         plt.xlabel(xlabel)
@@ -43,7 +43,3 @@ if __name__=='__main__':
     print('样本均值:mean={0}，std={1}'.format(meanSamples.mean(),std2))
     print('sqrt({0})={2},std1/std2={1}'.format(SAMPLE_SIZE,std1/std2,np.sqrt(SAMPLE_SIZE)))
     draw(meanSamples,'X','Freq')
-    
-
-
-
