@@ -13,9 +13,9 @@ scipy = "*"
 matplotlib = "*"
 xlrd = "*"
 scikit-image = "*"
-scikit-learn = "*"
 tensorflow = "==2.0.0"
 opencv-python = "*"
+scikit-learn = "*"
 
 [requires]
 python_version = "3.7"
