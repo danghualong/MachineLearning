@@ -2,63 +2,62 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
-size=19
-X=np.arange(size).astype(float)
-Y=[]
+class Perceptron(object):
+    def __init__(self):
+        self.w=None
+        self.b=0
+        self.lr=1
 
-for i in range(size):
-    if(i%2==0):
-        Y.append(3*i+1+random.random()*2)
-    else:
-        Y.append(3*i-1-random.random()*3)
-Y=np.array(Y)
+    def fit(self,X,Y):
+        size=len(Y)
+        self.w=np.zeros(X.shape[1])
+        self.b=0
+        times=0
+        while(True):
+            isAllOK=True
+            for i in range(size):
+                logit=Y[i]*(np.dot(self.w,X[i])+self.b)
+                if(logit<=0):
+                    self.w=self.w+self.lr*Y[i]*X[i]
+                    self.b=self.b+self.lr*Y[i]
+                    isAllOK=False
+            times+=1
+            if(isAllOK):
+                print("times:",times)
+                self._showLine(X,Y)
+                break
 
-X1=[i for i in range(size) if i%2==0]
-X2=[i for i in range(size) if i%2==1]
-Y1=Y[X1]
-Y2=Y[X2]
+    def predict(self,testX):
+        return np.dot(self.w,testX)+self.b
+
+    def _showLine(self,X,Y):
+        yhat=-(self.w[0]*X[:,0]+self.b)/self.w[-1]
+        plt.plot(X[:,0],yhat,color='r')
+        classes=Y[:,0]
+        plt.scatter(X[classes>0,0],X[classes>0,-1],marker='o')
+        plt.scatter(X[classes<0,0],X[classes<0,-1],marker='x')
+        plt.show()
 
 
-W=0
-b=0
+if __name__=='__main__':
+    np.random.seed(100)
+    size=19
+    wt=(3,-1)
+    bt=2
+    rands=np.random.random(size)
+    X1=np.random.random([size,1])*5
+    X2=wt[0]*X1+bt-random.random()*2
+    X2[rands>0.5]=wt[0]*X1[rands>0.5]+bt+random.random()*2
+    X=np.hstack((X1,X2))
 
+    Y=np.ones([size,1])
+    Y[rands<=0.5]=-1
+    
+    clf=Perceptron()
+    clf.fit(X,Y)
+    print(clf.predict((3,-12)))
 
-
-def getLogit(x):
-    return W*x+b
-
-def showLine():
-    yhat=W*X+b
-    plt.plot(X,yhat,color='r')
-    plt.scatter(X1,Y1,marker='o')
-    plt.scatter(X2,Y2,marker='x')
-    plt.show()
-
-
-times=0
-while(True):
-    isAllOK=True
-    for i in range(size):
-        logit=getLogit(X[i])
-        if(i%2==1):
-            while(logit<=Y[i]):
-                W=W+X[i]*0.1
-                b=b+0.1
-                logit=getLogit(X[i])
-                times+=1
-                isAllOK=False
-        else:
-            while(logit>=Y[i]):
-                W=W-X[i]*0.1
-                b=b-0.1
-                times+=1
-                logit=getLogit(X[i])
-                isAllOK=False
-    print('w={0},b={1},times={2}'.format(W,b,times))
-    if(isAllOK):
-        showLine()
-        break
-
+    
 
 
 
