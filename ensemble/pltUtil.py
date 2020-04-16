@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']
+
 def drawAuc(aggClassEst,vectLabels):
     m=vectLabels.shape[0]
     posCount=np.sum(vectLabels==1.0)
@@ -41,7 +43,11 @@ def drawAuc(aggClassEst,vectLabels):
     plt.title('the auc of the model')
     plt.show()
 
-
+def draw(items,title):
+    plt.scatter(range(len(items)),items)
+    plt.ylabel('error_rate')
+    plt.title(title)
+    plt.show()
 
 
 
