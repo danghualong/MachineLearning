@@ -13,7 +13,7 @@ scipy = "*"
 matplotlib = "*"
 xlrd = "*"
 scikit-image = "*"
-tensorflow = "==2.0.0"
+tensorflow = "==2.7.0"
 opencv-python = "*"
 scikit-learn = "*"
 
